@@ -6,7 +6,7 @@ const db = {
   ]
 }
 
-const list = async (table) => db[table]
+const list = async (table) => db[table] || []
 
 const get = async (table, id) => {
   const collection = await list(table)
@@ -14,15 +14,28 @@ const get = async (table, id) => {
 }
 
 const upsert = async (table, payload) => {
+  db[table] = db[table] || []
   db[table].push(payload)
-  // return payload // Para regresar el elemento agregado
-  return db // opara ver que se agregó
+
+  return payload // Para regresar el elemento agregado
+  // return db // opara ver que se agregó
 }
 const remove = async (table, id) => true
+
+const query = async (table, q) => {
+  const collection = await list(table)
+  const keys = Object.keys(q)
+  const key = keys[0]
+
+  const filteredItem = collection.filter((item) => item[key] === q[key]) // Regresa un arreglo de los objetos encontrados comparando el query vs el item
+
+  return filteredItem[0] || []
+}
 
 module.exports = {
   list,
   get,
   upsert,
-  remove
+  remove,
+  query
 }
