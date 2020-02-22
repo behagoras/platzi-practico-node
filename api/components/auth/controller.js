@@ -2,6 +2,7 @@
 const bcrypt = require('bcrypt')
 const TABLE = 'auth'
 const auth = require('../../../auth')
+const error = require('../../../utils/error')
 
 module.exports = (store = require('../../store/dummy')) => {
   const login = async (username, password) => {
@@ -12,7 +13,7 @@ module.exports = (store = require('../../store/dummy')) => {
         if (equals) {
           return auth.sign(data)
         } else {
-          throw new Error('Información inválida')
+          throw error('Información inválida')
         }
       })
   }

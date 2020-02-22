@@ -5,7 +5,7 @@ const checkAuth = (action) => {
     const owner = req.body.id
     switch (action) {
       case 'update':
-        auth.check.ownership(req, owner)
+        auth.check.own(req, owner)
         break
       default:
         next()

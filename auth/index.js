@@ -1,20 +1,23 @@
 const jwt = require('jsonwebtoken')
 const config = require('../config')
+const error = require('../utils/error')
 const { secret } = config.jwt
 
 const sign = (data) => jwt.sign(data, secret)
 const verify = (token) => jwt.verify(token, secret)
 
 const check = {
-  ownership: (req, owner) => {
+  own: (req, owner) => {
     const decoded = decodeHeader(req)
     console.log(decoded)
+
+    if (decoded.id !== owner) throw error('no puedes hacer ésto', 401)
   }
 }
 
 const getToken = (auth) => {
-  if (!auth) throw new Error('No viene token')
-  if (auth.indexOf('Bearer ') === -1) throw new Error('Formato inválido') // no tiene el formato "Bearer ñaslñaksjadsflkñjadsflñkfjdañlkjñlfajJWT"
+  if (!auth) throw error('No viene token', 400)
+  if (auth.indexOf('Bearer ') === -1) throw error('Formato inválido', 400) // no tiene el formato "Bearer ñaslñaksjadsflkñjadsflñkfjdañlkjñlfajJWT"
   const token = auth.replace('Bearer ', '')
   return token
 }

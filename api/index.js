@@ -10,15 +10,17 @@ const app = express()
 
 // Imported Express Middlewares
 app.use(bodyParser.json())
-
 const swaggerDoc = require('./swagger.json')
 
 // Custom Express Middlewares
+const errors = require('../network/errors')
 
 // Express Router for getting Network for each endpoint
 app.use('/api/user', user)
 app.use('/api/auth', auth)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
+
+app.use(errors)
 
 // Initializing express
 app.listen(config.api.port, () => {

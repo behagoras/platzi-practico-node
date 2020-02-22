@@ -1,5 +1,7 @@
 const express = require('express')
 
+const secure = require('./secure')
+
 const response = require('../../../network/response')
 const controller = require('./index')
 const router = express.Router()
@@ -7,38 +9,32 @@ const router = express.Router()
 router.get('/', list)
 router.get('/:id', get)
 router.post('/', upsert)
-router.put('/', upsert)
+router.put('/', secure('update'), upsert)
 
-function list (req, res) {
+function list (req, res, next) {
   // res.send('Todo funciona')
   controller.list()
     .then((list) => {
       response.success(req, res, list, 200)
     })
-    .catch((error) => {
-      response.error(req, res, error.message, 500)
-    })
+    .catch(next)
 }
 
-function get (req, res) {
+function get (req, res, next) {
   // res.send('Todo funciona')
   controller.get(req.params.id)
     .then((user) => {
       response.success(req, res, user, 200)
     })
-    .catch((error) => {
-      response.error(req, res, error.message, 500)
-    })
+    .catch(next)
 }
 
-function upsert (req, res) {
+function upsert (req, res, next) {
   controller.upsert(req.body)
     .then((user) => {
       response.success(req, res, user, 200)
     })
-    .catch((error) => {
-      response.error(req, res, error.message, 500)
-    })
+    .catch(next)
 }
 
 module.exports = router

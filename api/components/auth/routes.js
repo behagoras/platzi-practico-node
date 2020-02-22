@@ -6,17 +6,14 @@ const router = express.Router()
 
 router.post('/login', login)
 
-function login (req, res) {
-  // res.send('Todo funciona')
+function login (req, res, next) {
   const { username, password } = req.body
 
   controller.login(username, password)
     .then((token) => {
       response.success(req, res, token, 201)
     })
-    .catch((error) => {
-      response.error(req, res, error.message || 'Información invalida', 400)
-    })
+    .catch(next)
 }
 
 module.exports = router
