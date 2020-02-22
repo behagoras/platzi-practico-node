@@ -4,9 +4,9 @@ const auth = require('../auth')
 
 const TABLE = 'user'
 
-module.exports = (injectedStore = require('../../store/dummy')) => {
-  const list = () => injectedStore.list(TABLE)
-  const get = (id) => injectedStore.get(TABLE, id)
+module.exports = (store = require('../../store/dummy')) => {
+  const list = () => store.list(TABLE)
+  const get = (id) => store.get(TABLE, id)
 
   const upsert = async (body) => {
     const { id = nanoid(), name, username, password } = body
@@ -14,10 +14,10 @@ module.exports = (injectedStore = require('../../store/dummy')) => {
     if (password && username) {
       await auth.upsert(user)
     }
-    return injectedStore.upsert(TABLE, user)
+    return store.upsert(TABLE, user)
   }
 
-  const _delete = (id) => injectedStore.delete(TABLE, id)
+  const _delete = (id) => store.delete(TABLE, id)
 
   return {
     list,

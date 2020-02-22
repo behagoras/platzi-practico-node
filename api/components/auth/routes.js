@@ -12,7 +12,7 @@ function login (req, res) {
 
   controller.login(username, password)
     .then((token) => {
-      response.success(req, res, token, 200)
+      response.success(req, res, token, 201)
     })
     .catch((error) => {
       response.error(req, res, error.message || 'Información invalida', 400)

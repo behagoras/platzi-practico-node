@@ -1,4 +1,5 @@
 // Control all the logic of the user component
+const bcrypt = require('bcrypt')
 const TABLE = 'auth'
 const auth = require('../../../auth')
 
@@ -6,17 +7,17 @@ module.exports = (store = require('../../store/dummy')) => {
   const login = async (username, password) => {
     const data = await store.query(TABLE, { username: username })
 
-    if (data.password === password) {
-      console.log('auth.sign(data)', auth.sign(data))
-      console.log('auth', auth)
-      console.log('data', data)
-      return auth.sign(data)
-    } else {
-      throw new Error('Información inválida')
-    }
+    return bcrypt.compare(password, data.password)
+      .then((equals) => {
+        if (equals) {
+          return auth.sign(data)
+        } else {
+          throw new Error('Información inválida')
+        }
+      })
   }
 
-  const upsert = (data) => {
+  const upsert = async (data) => {
     const {
       id,
       username = null,
@@ -26,7 +27,7 @@ module.exports = (store = require('../../store/dummy')) => {
     const authData = {
       id,
       username,
-      password
+      password: await bcrypt.hash(password, 5)
     }
 
     return store.upsert(TABLE, authData)
