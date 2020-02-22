@@ -1,8 +1,20 @@
 const db = {
   user: [
-    { id: '1', name: 'David' },
-    { id: '2', name: 'Fernando' },
-    { id: '3', name: 'Xavier' }
+    { id: '1', username: 'David', password: '$2b$05$OmdDggo0WSm2l5ujy02IeuvkwRtUsb1RcbUJ4RHCg7TP2au1lLc0y' },
+    { id: '2', username: 'Fernando', password: '$2b$05$OmdDggo0WSm2l5ujy02IeuvkwRtUsb1RcbUJ4RHCg7TP2au1lLc0y' },
+    { id: '3', username: 'Xavier', password: '$2b$05$OmdDggo0WSm2l5ujy02IeuvkwRtUsb1RcbUJ4RHCg7TP2au1lLc0y' },
+    {
+      id: 'awDdGm-_kG0TLfxdioGv_',
+      username: 'behagoras',
+      password: '$2b$05$6jIYMTeRiFXH5gqRH9U2i.H53lnS/cOn6rai2PSBuI5JuLXUJdmA2'
+    }
+  ],
+  auth: [
+    {
+      id: 'awDdGm-_kG0TLfxdioGv_',
+      username: 'behagoras',
+      password: '$2b$05$6jIYMTeRiFXH5gqRH9U2i.H53lnS/cOn6rai2PSBuI5JuLXUJdmA2'
+    }
   ]
 }
 
@@ -16,6 +28,7 @@ const get = async (table, id) => {
 const upsert = async (table, payload) => {
   db[table] = db[table] || []
   const index = db[table].push(payload)
+  console.log(db)
   // console.log(index)
   // return get(table, index)
   // console.log(db)
@@ -30,6 +43,8 @@ const query = async (table, q) => {
   const key = keys[0]
 
   const filteredItem = collection.filter((item) => item[key] === q[key]) // Regresa un arreglo de los objetos encontrados comparando el query vs el item
+
+  console.log('filteredItem', filteredItem)
 
   return filteredItem[0] || []
 }
