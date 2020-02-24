@@ -6,7 +6,7 @@ const TABLE = 'user'
 
 module.exports = (store = require('../../store/dummy')) => {
   const list = () => store.list(TABLE)
-  const get = (id) => store.get(TABLE, id)
+  const get = (id) => store.get(TABLE, { id })
 
   const upsert = async (body) => {
     const { id = nanoid(), name, username, password } = body
@@ -18,12 +18,17 @@ module.exports = (store = require('../../store/dummy')) => {
     return store.upsert(TABLE, user)
   }
 
+  const follow = (from, to) => store.upsert(TABLE + '_follow', { user_from: from, user_to: to })
+  const followers = (id) => store.get(`${TABLE}_follow`, { user_from: id })
+
   const _delete = (id) => store.delete(TABLE, id)
 
   return {
     list,
     get,
     upsert,
-    delete: _delete
+    delete: _delete,
+    follow,
+    followers
   }
 }

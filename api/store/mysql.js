@@ -2,7 +2,7 @@ const mysql = require('mysql')
 
 const config = require('../../config')
 
-const dbconf = {
+const dbConf = {
   host: config.mysql.host,
   user: config.mysql.user,
   password: config.mysql.password,
@@ -12,7 +12,7 @@ const dbconf = {
 let connection
 
 const handleConnection = () => {
-  connection = mysql.createConnection(dbconf)
+  connection = mysql.createConnection(dbConf)
   connection.connect(error => {
     if (error) {
       console.error('[db error]', error)
@@ -41,9 +41,13 @@ const list = async (table) => new Promise((resolve, reject) => {
   })
 })
 
-const get = async (table, id) => new Promise((resolve, reject) => {
-  connection.query(`SELECT * FROM ${table} WHERE id = '${id}'`, (error, data) => {
+const get = async (table, where) => new Promise((resolve, reject) => {
+  console.log('table', table)
+  console.log('where', where)
+  // console.log(id)
+  connection.query(`SELECT * FROM ${table} WHERE ?`, where, (error, data) => {
     if (error) { return reject(error) }
+    console.log(data)
     resolve(data)
   })
 })
