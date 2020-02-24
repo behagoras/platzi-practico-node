@@ -7,7 +7,7 @@ const controller = require('./index')
 const router = express.Router()
 
 router.get('/', list)
-router.get('/follow', secure('follow'), followers)
+router.get('/:id/followers', secure('follow'), followers)
 router.post('/follow/:id', secure('follow'), follow)
 
 router.get('/:id', get)
@@ -50,8 +50,7 @@ function follow (req, res, next) {
 }
 
 function followers (req, res, next) {
-  console.log('followers')
-  controller.followers(req.user.id)
+  controller.followers(req.params.id)
     .then((data) => {
       response.success(req, res, data, 201)
     })
