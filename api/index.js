@@ -5,6 +5,7 @@ const swaggerUi = require('swagger-ui-express')
 const config = require('../config.js')
 const user = require('./components/user/routes')
 const auth = require('./components/auth/routes')
+const post = require('./components/post/routes')
 
 const app = express()
 
@@ -18,6 +19,7 @@ const errors = require('../network/errors')
 // Express Router for getting Network for each endpoint
 app.use('/api/user', user)
 app.use('/api/auth', auth)
+app.use('/api/post', post)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 
 app.use(errors)

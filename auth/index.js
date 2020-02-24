@@ -17,6 +17,11 @@ const check = {
     const decoded = decodeHeader(req)
     if (!decoded.id) throw error('Necesitas ingresar para seguir a alguien', 401)
     return (true)
+  },
+  getId: (req) => {
+    const decoded = decodeHeader(req)
+    if (!decoded.id) throw error('Necesitas ingresar para seguir editar una publicación', 401)
+    return (decoded.id)
   }
 }
 
