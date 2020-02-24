@@ -27,13 +27,8 @@ const get = async (table, id) => {
 
 const upsert = async (table, payload) => {
   db[table] = db[table] || []
-  const index = db[table].push(payload)
+  db[table].push(payload)
   console.log(db)
-  // console.log(index)
-  // return get(table, index)
-  // console.log(db)
-  // return payload // Para regresar el elemento agregado
-  // return db // opara ver que se agregó
 }
 const remove = async (table, id) => true
 

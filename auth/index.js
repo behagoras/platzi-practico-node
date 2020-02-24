@@ -9,9 +9,9 @@ const verify = (token) => jwt.verify(token, secret)
 const check = {
   own: (req, owner) => {
     const decoded = decodeHeader(req)
-    console.log(decoded)
 
     if (decoded.id !== owner) throw error('no puedes hacer ésto', 401)
+    return (true)
   }
 }
 
