@@ -45,13 +45,12 @@ const get = async (table, where, join) => new Promise((resolve, reject) => {
   let joinQuery = ''
   if (join) {
     join.forEach((element, i) => {
-      console.log(element)
       const key = Object.keys(element)[0]
       const val = element[key]
       joinQuery += ` JOIN ${key} ON ${table}.${val} = ${key}.id`
     })
   }
-  connection.query(`SELECT * FROM ${table} ${joinQuery} WHERE ?`, where, (error, data) => {
+  connection.query(`SELECT * FROM ${table} ${joinQuery} WHERE ${'? AND '.repeat(where.length)} 1`, where, (error, data) => {
     if (error) { return reject(error) }
     console.log(data)
     resolve(data)

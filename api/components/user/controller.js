@@ -8,7 +8,7 @@ module.exports = (store = require('../../store/dummy')) => {
   const list = () => store.list(TABLE)
   const get = (id) => {
     const table = TABLE
-    const where = { id }
+    const where = [{ id }]
     return store.get(table, where)
   }
 
@@ -30,7 +30,7 @@ module.exports = (store = require('../../store/dummy')) => {
 
   const followers = (id) => {
     const table = `${TABLE}_follow`
-    const where = { user_from: id }
+    const where = [{ user_from: id }]
     const join = [{ user: 'user_to' }]
     return store.get(table, where, join)
   }

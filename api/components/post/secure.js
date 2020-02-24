@@ -12,6 +12,14 @@ const checkAuth = (action) => {
         req.body.user = auth.check.getId(req)
         next()
         break
+      case 'logged':
+        req.body.user = auth.check.getId(req)
+        next()
+        break
+      case 'add':
+        req.body.user = auth.check.getId(req)
+        next()
+        break
       default:
         next()
     }

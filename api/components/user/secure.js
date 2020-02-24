@@ -12,6 +12,10 @@ const checkAuth = (action) => {
         auth.check.logged(req)
         next()
         break
+      case 'logged':
+        auth.check.logged(req)
+        next()
+        break
 
       default:
         next()
