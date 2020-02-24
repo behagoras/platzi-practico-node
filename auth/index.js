@@ -3,7 +3,7 @@ const config = require('../config')
 const error = require('../utils/error')
 const { secret } = config.jwt
 
-const sign = (data) => jwt.sign(data, secret)
+const sign = (data) => jwt.sign(JSON.stringify(data), secret)
 const verify = (token) => jwt.verify(token, secret)
 
 const check = {

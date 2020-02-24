@@ -10,9 +10,10 @@ module.exports = (store = require('../../store/dummy')) => {
 
   const upsert = async (body) => {
     const { id = nanoid(), name, username, password } = body
-    const user = { id, username, name, password }
+    const user = { id, username, name }
+    const authUser = { id, username, password }
     if (password && username) {
-      await auth.upsert(user)
+      await auth.upsert(authUser)
     }
     return store.upsert(TABLE, user)
   }
