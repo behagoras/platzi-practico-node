@@ -19,7 +19,11 @@ module.exports = (store = require('../../store/dummy')) => {
   }
 
   const follow = (from, to) => store.upsert(TABLE + '_follow', { user_from: from, user_to: to })
-  const followers = (id) => store.get(`${TABLE}_follow`, { user_from: id })
+  const followers = (id) => {
+    const join = [{ user: 'user_to' }]
+    // console.log(join)
+    return store.get(`${TABLE}_follow`, { user_from: id }, join)
+  }
 
   const _delete = (id) => store.delete(TABLE, id)
 
