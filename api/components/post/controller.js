@@ -1,7 +1,7 @@
 const TABLE = 'post'
 const nanoid = require('nanoid')
 
-module.exports = (store = require('../../store/dummy')) => {
+module.exports = (store = require('../../../store/dummy')) => {
   const list = () => store.list(TABLE)
   const get = (id) => {
     const table = TABLE

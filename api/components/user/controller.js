@@ -4,7 +4,7 @@ const auth = require('../auth')
 
 const TABLE = 'user'
 
-module.exports = (store = require('../../store/dummy')) => {
+module.exports = (store = require('../../../store/dummy')) => {
   const list = () => store.list(TABLE)
   const get = (id) => {
     const table = TABLE
@@ -29,6 +29,7 @@ module.exports = (store = require('../../store/dummy')) => {
   }
 
   const followers = (id) => {
+    console.log('supa id', id)
     const table = `${TABLE}_follow`
     const where = [{ user_from: id }]
     const join = [{ user: 'user_to' }]

@@ -4,7 +4,7 @@ const TABLE = 'auth'
 const auth = require('../../../auth')
 const error = require('../../../utils/error')
 
-module.exports = (store = require('../../store/dummy')) => {
+module.exports = (store = require('../../../store/dummy')) => {
   const login = async (username, password) => {
     const data = await store.query(TABLE, { username: username })
 

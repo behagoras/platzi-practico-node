@@ -1,6 +1,6 @@
 const mysql = require('mysql')
 
-const config = require('../../config')
+const config = require('../config')
 
 const dbConf = {
   host: config.mysql.host,
@@ -41,7 +41,10 @@ const list = async (table) => new Promise((resolve, reject) => {
   })
 })
 
-const get = async (table, where, join) => new Promise((resolve, reject) => {
+const get = async (table, where, join = '') => new Promise((resolve, reject) => {
+  console.log('table', table)
+  console.log('where', where)
+  console.log('join', join)
   let joinQuery = ''
   if (join) {
     join.forEach((element, i) => {
@@ -50,10 +53,21 @@ const get = async (table, where, join) => new Promise((resolve, reject) => {
       joinQuery += ` JOIN ${key} ON ${table}.${val} = ${key}.id`
     })
   }
+  console.log('table', table)
+  console.log('joinQuery', joinQuery)
+  console.log('where', where)
+
   connection.query(`SELECT * FROM ${table} ${joinQuery} WHERE ${'? AND '.repeat(where.length)} 1`, where, (error, data) => {
     if (error) { return reject(error) }
     console.log(data)
     resolve(data)
+  })
+})
+
+const insert = (table, data) => new Promise((resolve, reject) => {
+  connection.query(`INSERT INTO ${table} SET ?`, data, (err, result) => {
+    if (err) return reject(err)
+    resolve(result)
   })
 })
 
@@ -77,5 +91,6 @@ module.exports = {
   get,
   upsert,
   remove,
-  query
+  query,
+  insert
 }
